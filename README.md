@@ -52,7 +52,7 @@ git commit -m "message"
 To setup CI/CD pipeline in heroku we need 3 information
 
 1. HEROKU_EMAIL = pavankumarkosaraju@gmail.com
-2. HEROKU_API_KEY = 347164c4-38d4-40fc-8981-07a7dff4101b
+2. HEROKU_API_KEY = <>
 3. HEROKU_APP_NAME = ml-regression-house-app
 
 
