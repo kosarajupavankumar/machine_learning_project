@@ -9,7 +9,7 @@ This is the first Machine learning project.
 
 Creating conda environment 
 ```
-conda create -p Venv python==3.7 -y
+conda create -p Venv python==3.8.13 -y
 ```
 
 ```
