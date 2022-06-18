@@ -6,9 +6,7 @@ PROJECT_NAME="housing-predictor"
 VERSION="0.0.1"
 AUTHOR="Pavan Kumar"
 DESRCIPTION="This is a first Machine Learning Project"
-PACKAGES=["housing"]
 REQUIREMENT_FILE_NAME="requirements.txt"
-
 
 def get_requirements_list()->List[str]:
     """
