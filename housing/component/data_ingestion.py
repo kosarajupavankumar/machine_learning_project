@@ -104,13 +104,13 @@ class DataIngestion:
                 logging.info(f"Exporting testing dataset to file: [{test_file_path}]")
                 strat_test_set.to_csv(test_file_path, index=False)
 
-            DataIngestionArtifact(train_file_path=train_file_path, 
+            data_ingestion_artifact = DataIngestionArtifact(train_file_path=train_file_path, 
                                 test_file_path=test_file_path,
                                 is_ingested=True,
                                 message=f"Data Ingestion completed successfully.")
             
-            logging.info("Data ingestion artifact :[{DataIngestionArtifact}]")
-            return DataIngestionArtifact
+            logging.info("Data ingestion artifact :[{data_ingestion_artifact}]")
+            return data_ingestion_artifact
 
         except Exception as e:
             raise HousingException(e, sys) from e

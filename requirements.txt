@@ -3,4 +3,5 @@ sklearn
 pandas
 numpy
 Flask
+evidently
 -e .
