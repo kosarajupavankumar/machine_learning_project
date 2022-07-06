@@ -1,4 +1,4 @@
-from tkinter.tix import E
+import yaml
 from housing.logger import logging
 from housing.exception import HousingException
 from housing.entity.config_entity import DataValidationConfig
@@ -64,21 +64,36 @@ class DataValidation:
     def validate_dataset_schema(self) ->bool:
         try:
             validation_status = False
+            schema_file_path = self.data_validation_config.schema_file_path
+            
+            if os.path.exists(schema_file_path):
+                with open(schema_file_path) as file_path:
+                    schema_dict = yaml.safe_load(file_path)
 
-            #Assigment validate training and testing dataset using schema file 
-            # 1. Number of column
-            # 2. check the value of ocean proximity
-            # acceptable values 
-                    # - <1H OCEAN
-                    # - INLAND
-                    # - ISLAND
-                    # - NEAR BAY
-                    # - NEAR OCEAN
-            # 3. check column names
+                train_df, test_df = self.get_train_and_test_df()
 
-            validation_status = True
+                #Check number of columns for training and testing dataset with schema file
+                if len(train_df.columns) == len(schema_dict['columns']) and len(test_df.columns) == len(schema_dict['columns']):
+                    logging.info("Number of columns are same in training and testing dataset")
+                    validation_status = True
+                else:
+                    raise HousingException("Number of columns are not same in training and testing dataset")
+
+                #Check column names for training and testing dataset with schema file using isin functions
+                if train_df.columns.isin(schema_dict['columns']).all() and test_df.columns.isin(schema_dict['columns']).all():
+                    logging.info("Column names are same in training and testing dataset")
+                    validation_status = True
+                else:
+                    raise HousingException("Column names are not same in training and testing dataset")
+
+                #Check ocean proximity value for training and testing dataset with schema file
+                if (list(train_df['ocean_proximity'].unique()).sort() == schema_dict['domain_value']['ocean_proximity'].sort()) and list(test_df['ocean_proximity'].unique()).sort() ==schema_dict['domain_value']['ocean_proximity'].sort():
+                    logging.info("Ocean proximity values are same in training and testing dataset")
+                    validation_status = True
+                else:
+                    raise HousingException("Ocean proximity values are not same in training and testing dataset")
+
             return validation_status
-
         except Exception as e:
             raise HousingException(e, sys) from e
 

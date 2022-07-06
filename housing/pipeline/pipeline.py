@@ -21,7 +21,7 @@ class Pipeline:
 
     def start_data_ingestion(self) -> DataIngestionArtifact:
         try:
-            data_ingestion = DataIngestion(self.config.get_data_ingestion_config(),)
+            data_ingestion = DataIngestion(self.config.get_data_ingestion_config())
             return data_ingestion.initiate_data_ingestion()
         except Exception as e:
             raise HousingException(e, sys) from e
