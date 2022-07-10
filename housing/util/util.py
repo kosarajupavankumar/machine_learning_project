@@ -82,6 +82,7 @@ def load_data(file_path: str, schema_file_path: str) -> pd.DataFrame:
 
         error_messgae = ""
 
+        print('schema keys: ', schema.keys())
 
         for column in dataframe.columns:
             if column in list(schema.keys()):

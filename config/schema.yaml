@@ -11,7 +11,7 @@ columns:
   ocean_proximity: category
 
 numerical_columns:
-  - longtiude
+  - longitude
   - latitude
   - housing_median_age
   - total_rooms

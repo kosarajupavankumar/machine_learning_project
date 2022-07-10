@@ -113,32 +113,24 @@ class DataTransformation:
             numerical_columns = dataset_schema[NUMERICAL_COLUMN_KEY]
             categorical_columns = dataset_schema[CATEGORICAL_COLUMN_KEY]
 
+            num_pipeline = Pipeline(steps=[('imputer', SimpleImputer(strategy="median")),
+                                           ('feature_generator', FeatureGenerator(
+                                                add_bedrooms_per_room=self.data_transformation_config.add_bedroom_per_room,
+                                                columns=numerical_columns
+                                            )),
+                                            ('scaler', StandardScaler())])
 
-            num_pipeline = Pipeline(steps=[
-                ('imputer', SimpleImputer(strategy="median")),
-                ('feature_generator', FeatureGenerator(
-                    add_bedrooms_per_room=self.data_transformation_config.add_bedroom_per_room,
-                    columns=numerical_columns
-                )),
-                ('scaler', StandardScaler())
-            ]
-            )
-
-            cat_pipeline = Pipeline(steps=[
-                 ('impute', SimpleImputer(strategy="most_frequent")),
-                 ('one_hot_encoder', OneHotEncoder(handle_unknown="ignore")),
-                 ('scaler', StandardScaler(with_mean=False))
-            ]
-            )
+            cat_pipeline = Pipeline(steps=[('impute', SimpleImputer(strategy="most_frequent")),
+                                           ('one_hot_encoder', OneHotEncoder()),
+                                           ('scaler', StandardScaler(with_mean=False))])
 
             logging.info(f"Categorical columns: {categorical_columns}")
             logging.info(f"Numerical columns: {numerical_columns}")
 
 
-            preprocessing = ColumnTransformer([
-                ('num_pipeline', num_pipeline, numerical_columns),
-                ('cat_pipeline', cat_pipeline, categorical_columns),
-            ])
+            preprocessing = ColumnTransformer(transformers=[('num_pipeline', num_pipeline, numerical_columns),
+                                                            ('cat_pipeline', cat_pipeline, categorical_columns),])
+                                                            
             return preprocessing
 
         except Exception as e:
@@ -205,12 +197,12 @@ class DataTransformation:
             save_object(file_path=preprocessing_obj_file_path,obj=preprocessing_obj)
 
             data_transformation_artifact = DataTransformationArtifact(is_transformed=True,
-            message="Data transformation successfull.",
-            transformed_train_file_path=transformed_train_file_path,
-            transformed_test_file_path=transformed_test_file_path,
-            preprocessed_object_file_path=preprocessing_obj_file_path
-
-            )
+                                                                      message="Data transformation successfull.",
+                                                                      transformed_train_file_path=transformed_train_file_path,
+                                                                      transformed_test_file_path=transformed_test_file_path,
+                                                                      preprocessed_object_file_path=preprocessing_obj_file_path 
+                                                                    )
+                                                                
             logging.info(f"Data transformationa artifact: {data_transformation_artifact}")
             return data_transformation_artifact
         except Exception as e:
