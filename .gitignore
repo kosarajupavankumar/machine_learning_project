@@ -5,6 +5,7 @@ __pycache__/
 
 # C extensions
 housing/artifact
+saved_models/*
 *.so
 
 # Distribution / packaging
