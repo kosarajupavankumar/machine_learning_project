@@ -6,7 +6,6 @@ grid_search:
     verbose: 2
 
 model_selection:
-
   module_0:
     class: LinearRegression
     module: sklearn.linear_model
@@ -16,7 +15,6 @@ model_selection:
       fit_intercept:
       - true
       - false
-
   module_1:
     class: RandomForestRegressor
     module: sklearn.ensemble
@@ -25,17 +23,3 @@ model_selection:
     search_param_grid:
       min_samples_leaf:
       - 6
-      - 12
-      - 4
-      n_estimators:
-      - 100
-  
-  module_2:
-    class: SVR
-    module: sklearn.svm
-    search_param_grid:
-      kernel:
-      - linear
-      - poly
-      - rbf
-      - sigmoid
